@@ -21,6 +21,7 @@ target_include_directories(glad PUBLIC
 )
 
 add_executable(DeadReckoningHomebound 
+    src/camera.cpp
     src/main.cpp 
     src/shader.cpp
     src/stb_image.cpp

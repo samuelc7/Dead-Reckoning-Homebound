@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "camera.h"
 #include "shader.h"
 #include "stb_image.h"
 
@@ -61,10 +62,8 @@ int main()
 
     SDL_SetWindowRelativeMouseMode(window, true);
 
-    float yaw = -90.0f;
-    float pitch = 0.0f;
-
-    float fov = 45.0f;
+    Camera camera;
+    camera.max_fov = 80.0f;
 
     float deltaTime = 0.0f; // Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
@@ -338,10 +337,6 @@ int main()
     //view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f),
     //    glm::vec3(0.0f, 0.0f, 0.0f),
     //    glm::vec3(0.0f, 1.0f, 0.0f));
-    
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
     bool running = true;
     SDL_Event event;
@@ -367,36 +362,16 @@ int main()
             }
             if (event.type == SDL_EVENT_MOUSE_MOTION)
             {
-                processMouseMovement(
-                    yaw,
-                    pitch,
-                    cameraFront,
-                    event.motion.xrel,
-                    event.motion.yrel
-                );
+                camera.processMouseMovement(event.motion.xrel, event.motion.yrel);
             }
             if (event.type == SDL_EVENT_MOUSE_WHEEL)
             {
-                fov -= event.wheel.y;
-
-                if (fov < 1.0f) fov = 1.0f;
-                if (fov > 45.0f) fov = 45;
+                camera.processMouseWheel(event.wheel.y);
             }
         }
         const float cameraSpeed = 2.5f * deltaTime;
-
         const bool* key_states = SDL_GetKeyboardState(NULL);
-        if (key_states[SDL_SCANCODE_W])
-            cameraPos += cameraSpeed * cameraFront;
-        
-        if (key_states[SDL_SCANCODE_S])
-            cameraPos -= cameraSpeed * cameraFront;
-
-        if (key_states[SDL_SCANCODE_A])
-            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-
-        if (key_states[SDL_SCANCODE_D])
-            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        camera.handleCameraMovement(cameraSpeed, key_states);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -424,7 +399,7 @@ int main()
         glm::mat4 model = glm::mat4(1.0f);
 
         projection = glm::perspective(
-            glm::radians(fov),
+            glm::radians(camera.fov),
             1280.0f / 720.0f,
             0.1f,
             100.0f
@@ -434,7 +409,7 @@ int main()
         //float camX = sin(SDL_GetTicks() / 1000.0f) * radius;
         //float camZ = cos(SDL_GetTicks() / 1000.0f) * radius;
         glm::mat4 view;
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        view = glm::lookAt(camera.position, camera.position + camera.front, camera.up);
         //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0),
         //    glm::vec3(0.0, 1.0, 0.0));
         //model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f * glm::radians(50.0f),
@@ -474,33 +449,8 @@ int main()
         SDL_GL_SwapWindow(window);
     }
 
-
-
     SDL_DestroyWindow(window);
     SDL_Quit();
 
     return 0;
-}
-
-void processMouseMovement(float& yaw, float& pitch, glm::vec3& cameraFront, float xOffset, float yOffset)
-{
-    float sensitivity = 0.1f;
-
-    xOffset *= sensitivity;
-    yOffset *= sensitivity;
-
-    yaw += xOffset;
-    pitch += yOffset;
-
-    if (pitch > 89.0f)
-        pitch = 89.0f;
-
-    if (pitch < -89.0f)
-        pitch = -89.0f;
-
-    glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    direction.y = sin(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-    cameraFront = glm::normalize(direction);
 }
