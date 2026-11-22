@@ -11,7 +11,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "texture.h"
-
+#include "mesh.h"
 
 int main()
 {
