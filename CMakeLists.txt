@@ -20,9 +20,20 @@ target_include_directories(glad PUBLIC
     external/glad/include
 )
 
+# Assimp (pre-build binary)
+add_library(assimp SHARED IMPORTED)
+set_target_properties(assimp PROPERTIES
+    IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/external/assimp/assimp.lib"
+    IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/external/assimp/assimp.dll"
+)
+target_include_directories(assimp INTERFACE
+    "${CMAKE_SOURCE_DIR}/external/assimp/include"
+)
+
 add_executable(DeadReckoningHomebound 
     src/camera.cpp
     src/main.cpp 
+    src/mesh.cpp
     src/shader.cpp
     src/stb_image.cpp
     src/texture.cpp
@@ -32,6 +43,7 @@ target_include_directories(DeadReckoningHomebound PRIVATE
     include
     external/stb_image
     external/glm
+    external/assimp/include
 )
 
 file(GLOB shaders "${CMAKE_CURRENT_SOURCE_DIR}/shaders/*")
@@ -44,11 +56,12 @@ foreach(shader ${shaders})
 endforeach()
 
 
-# Link SDL3, GLAD, and OpenGL
+# Link SDL3, GLAD, OpenGL, Assimp
 target_link_libraries(DeadReckoningHomebound PRIVATE
     SDL3::SDL3
     glad
     opengl32
+    assimp
 )
 
 if(MSVC)
@@ -61,6 +74,13 @@ if(WIN32 AND SDL_SHARED)
         TARGET DeadReckoningHomebound POST_BUILD
         COMMAND "${CMAKE_COMMAND}" -E copy_if_different
             "$<TARGET_FILE:SDL3::SDL3-shared>"
+            "$<TARGET_FILE_DIR:DeadReckoningHomebound>"
+        VERBATIM
+    )
+    add_custom_command(
+        TARGET DeadReckoningHomebound POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/external/assimp/assimp.dll"
             "$<TARGET_FILE_DIR:DeadReckoningHomebound>"
         VERBATIM
     )
