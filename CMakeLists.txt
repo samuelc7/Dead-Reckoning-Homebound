@@ -25,6 +25,7 @@ add_executable(DeadReckoningHomebound
     src/main.cpp 
     src/shader.cpp
     src/stb_image.cpp
+    src/texture.cpp
 )
 
 target_include_directories(DeadReckoningHomebound PRIVATE 
