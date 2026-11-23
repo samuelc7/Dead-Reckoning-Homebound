@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <iostream>
+
 #include <SDL3/SDL.h>
 
 #include <glad/glad.h>
@@ -12,6 +14,7 @@
 #include "shader.h"
 #include "texture.h"
 #include "mesh.h"
+#include "model.h"
 
 int main()
 {
@@ -80,124 +83,17 @@ int main()
     //SDL_GL_SetSwapInterval(1);
    
     // ---------------------------------------------------- //
-
-	float vertices[] = 
-    {
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-    };
-
     // Shader
     Shader basicShader("shaders/basic.vert", "shaders/basic.frag");
     basicShader.use();
 
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-
-    //unsigned int VAO_t2;
-    //glGenVertexArrays(1, &VAO_t2);
-
-    //unsigned int VBO_t2;
-    //glGenBuffers(1, &VBO_t2);
-
-    // An EBO is a buffer, just like a vertex buffer object,
-    //  that stores indices that OpenGL uses to decide what vertices to draw
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-    // copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    // then set the vertex attributes pointers
-    // position attribute
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
-    //    (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// color attribute
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
-    //    (void*)(3* sizeof(float)));
-    //glEnableVertexAttribArray(1);
-
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // color attribute
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
-    // texture coord attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 
     // ---------------------------------------------------- //
     // Load textures
     stbi_set_flip_vertically_on_load(true);
 
-    std::vector<std::pair<GLenum, GLenum>> default_wrap_filter_options =
-    {
-        { GL_TEXTURE_WRAP_S, GL_REPEAT },
-        { GL_TEXTURE_WRAP_T, GL_REPEAT },
-        { GL_TEXTURE_MIN_FILTER, GL_LINEAR },
-        { GL_TEXTURE_MAG_FILTER, GL_LINEAR }
-    };
 
-    Texture container(default_wrap_filter_options, "assets/container.jpg", GL_RGB);
-    Texture face(default_wrap_filter_options, "assets/awesomeface.png", GL_RGBA);
-
-    glBindVertexArray(0);
-
-    glm::vec3 cubePositions[] = {
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(2.0f, 5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3(2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f, 3.0f, -7.5f),
-        glm::vec3(1.3f, -2.0f, -2.5f),
-        glm::vec3(1.5f, 2.0f, -2.5f),
-        glm::vec3(1.5f, 0.2f, -1.5f),
-        glm::vec3(-1.3f, 1.0f, -1.5f)
-    };
+    Model xwing("assets/models/x-wing/x-wing-flyingv1.obj");
 
     glm::mat4 projection;
 
@@ -239,10 +135,6 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, container.ID);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, face.ID);
 
         basicShader.use(); // active shader
 
@@ -262,44 +154,17 @@ int main()
             100.0f
         );
 
-        //const float radius = 10.0f;
-        //float camX = sin(SDL_GetTicks() / 1000.0f) * radius;
-        //float camZ = cos(SDL_GetTicks() / 1000.0f) * radius;
         glm::mat4 view;
         view = glm::lookAt(camera.position, camera.position + camera.front, camera.up);
-        //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0),
-        //    glm::vec3(0.0, 1.0, 0.0));
-        //model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f * glm::radians(50.0f),
-        //    glm::vec3(0.5f, 1.0f, 0.0f));
-        unsigned int modelLoc = glGetUniformLocation(basicShader.ID, "model");
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-        unsigned int viewLoc = glGetUniformLocation(basicShader.ID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        basicShader.setMat4("projection", projection);
+        basicShader.setMat4("view", view);
 
-        unsigned int projectionLoc = glGetUniformLocation(basicShader.ID, "projection");
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-        glBindVertexArray(VAO);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < 10; i++)
-        {
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle),
-                glm::vec3(1.0f, 0.3f, 0.5f));
-            basicShader.setMat4("model", model);
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
-
-        //glUseProgram(shaderProgramYellow);
-        //glBindVertexArray(VAO_t2);
-        //glDrawArrays(GL_TRIANGLES, 3, 3);
-        //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+        
+        basicShader.setMat4("model", model);
+        xwing.Draw(basicShader);
 
         SDL_GL_SwapWindow(window);
     }

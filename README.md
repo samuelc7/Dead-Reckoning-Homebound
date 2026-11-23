@@ -36,3 +36,5 @@ This project is not affiliated with or endorsed by Lucasfilm or Disney.
 ## Special Thanks To
 
 Joey de Vries for [Learn OpenGL](https://learnopengl.com).
+
+Alana G. for X-wing starfighter 3D model: [https://skfb.ly/6SA6o](https://skfb.ly/6SA6o).

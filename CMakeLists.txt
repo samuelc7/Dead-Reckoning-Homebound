@@ -34,6 +34,7 @@ add_executable(DeadReckoningHomebound
     src/camera.cpp
     src/main.cpp 
     src/mesh.cpp
+    src/model.cpp
     src/shader.cpp
     src/stb_image.cpp
     src/texture.cpp

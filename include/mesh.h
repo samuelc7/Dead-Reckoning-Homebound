@@ -18,6 +18,7 @@ struct Texture_struct
 {
 	unsigned int id;
 	std::string type;
+	std::string path;
 };
 
 class Mesh
