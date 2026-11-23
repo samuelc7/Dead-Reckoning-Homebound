@@ -37,4 +37,4 @@ This project is not affiliated with or endorsed by Lucasfilm or Disney.
 
 Joey de Vries for [Learn OpenGL](https://learnopengl.com).
 
-Alana G. for X-wing starfighter 3D model: [https://skfb.ly/6SA6o](https://skfb.ly/6SA6o).
+[jkavalik](https://models.spriters-resource.com/profile/jkavalik/) for Z-95 Headhunter 3D model: [Z-95 Headhunter (The Spriters Resource)](https://models.spriters-resource.com/pc_computer/starwarsjediknightjediacademy/asset/624043/?__cf_chl_tk=5Fr0Ebm41zU7ZfLpQodppqNU.AhXFQ51MHh8VC22yqk-1795412420-1.0.1.1-XBy7QAPt3fXZbpYeU18ekWxQ0FEzIRgmVf845Ix_K7k).
