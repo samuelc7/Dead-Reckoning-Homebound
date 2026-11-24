@@ -92,6 +92,7 @@ int main()
     stbi_set_flip_vertically_on_load(true);
 
     Model z95("assets/models/z-95/z-95.obj");
+    Model tie_fighter("assets/models/tie_fighter/tie_fighter.obj");
 
     glm::mat4 projection;
 
@@ -156,12 +157,41 @@ int main()
         basicShader.setMat4("projection", projection);
         basicShader.setMat4("view", view);
 
-        model = glm::translate(model, glm::vec3(0.0f, -1.3f, 0.0f));
+        // z95 (player)
+        model = glm::translate(model, glm::vec3(camera.position.x, camera.position.y - 1.0f, camera.position.z - 2.8f));
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-        
         basicShader.setMat4("model", model);
         z95.Draw(basicShader);
+
+        // tie fighters
+        glm::vec3 translations[] =
+        {
+            glm::vec3(4.0f, 0.0f, -3.0f),
+            glm::vec3(1.0f, 0.0f, -6.0f),
+            glm::vec3(-3.0f, 0.0f, -7.0f),
+            glm::vec3(-6.0f, 0.0f, -10.0f),
+            glm::vec3(0.0f, 0.0f, -12.0f),
+            glm::vec3(5.0f, 0.0f, -20.0f),
+            glm::vec3(-5.0f, 0.0f, -14.0f),
+            glm::vec3(-2.0f, 0.0f, -30.0f),
+            glm::vec3(-3.0f, 0.0f, -1.0f),
+            glm::vec3(6.0f, 0.0f, -25.0f)
+        };
+
+        float rotation_deg = 90.0f;
+        glm::vec3 rotation_axis = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
+
+        for (auto translation : translations)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, translation);
+            model = glm::rotate(model, rotation_deg, rotation_axis);
+            model = glm::scale(model, scale);
+            basicShader.setMat4("model", model);
+            tie_fighter.Draw(basicShader);
+        }
 
         SDL_GL_SwapWindow(window);
 
